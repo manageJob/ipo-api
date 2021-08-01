@@ -13,6 +13,9 @@ bootJar {
 	archiveVersion = '0.1'
 }
 
+
+jar { manifest { attributes 'Main-Class': 'com.example.IpoApiApplication' } }
+
 repositories {
 	mavenCentral()
 }
@@ -25,3 +28,5 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+

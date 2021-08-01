@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/ipo-api-0.0.1-SNAPSHOT.jar
+web: java -jar build/libs/ipo-api-1.0.jar

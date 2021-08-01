@@ -20,3 +20,6 @@ public class IpoApiApplication {
 	}
 
 }
+
+
+//web: java -Dserver.port=$PORT $JAVA_OPTS build/libs/ipo-api-0.0.1-SNAPSHOT-plain.jar

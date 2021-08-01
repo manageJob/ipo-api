@@ -1,1 +1,1 @@
-web: java -jar build/libs/ipo-api-1.0.jar
+web: java -jar build/libs/ipo-api-0.0.1.jar

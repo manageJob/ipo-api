@@ -8,6 +8,11 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+bootJar {
+	archiveBaseName = 'web-quiz-app'
+	archiveVersion = '0.1'
+}
+
 repositories {
 	mavenCentral()
 }

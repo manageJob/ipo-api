@@ -23,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfoDTO userInfo =  userService.getUserByUser(username);
+        UserInfoDTO userInfo =  userService.getUserByUsername(username);
         return new User(userInfo.getUsername(), userInfo.getPassword(), new ArrayList<>());
     }
 }

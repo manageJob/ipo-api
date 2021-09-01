@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface UserInterfaceRepository extends JpaRepository<UserEntity, Integer>, JpaSpecificationExecutor<UserEntity> {
 
-    Optional<UserEntity> findByUser(String user);
+    Optional<UserEntity> findByUsername(String user);
 
 }

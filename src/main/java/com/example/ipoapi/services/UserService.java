@@ -36,8 +36,8 @@ public class UserService {
         return new LoginDTO(userEntity.getName(), userEntity.getLastname());
     }
 
-    public UserInfoDTO getUserByUser(String username) {
-        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findByUser(username);
+    public UserInfoDTO getUserByUsername(String username) {
+        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findByUsername(username);
         if (userEntityOptional.isPresent()) {
             UserEntity userInfoDTO = userEntityOptional.get();
             return wrapperUserInfoDTO(userInfoDTO);
@@ -46,6 +46,6 @@ public class UserService {
     }
 
     private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {
-        return new UserInfoDTO(userEntity.getName(), userEntity.getLastname(), userEntity.getUser(), userEntity.getPassword());
+        return new UserInfoDTO(userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(), userEntity.getPassword());
     }
 }

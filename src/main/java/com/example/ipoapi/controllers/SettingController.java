@@ -32,7 +32,7 @@ public class SettingController {
     }
 
     @GetMapping("/setting/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") String id ) {
+    public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
         try {
             UserInfoDTO userInfo = settingService.getUserById(id);
             return ResponseEntity.ok().body(userInfo);

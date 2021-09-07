@@ -46,6 +46,6 @@ public class UserService {
     }
 
     private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {
-        return new UserInfoDTO(userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(), userEntity.getPassword());
+        return new UserInfoDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(), userEntity.getPassword());
     }
 }

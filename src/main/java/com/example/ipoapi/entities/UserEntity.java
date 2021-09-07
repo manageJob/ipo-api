@@ -2,6 +2,8 @@ package com.example.ipoapi.entities;
 
 
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 @Entity
@@ -25,4 +27,19 @@ public class UserEntity {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Column(name = "bank_name")
+    private String bankName;
+
+    @Column(name = "bank_number")
+    private String bankNumber;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RoleEntity roleEntity;
+
 }

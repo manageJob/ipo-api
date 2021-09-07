@@ -1,43 +1,35 @@
 package com.example.ipoapi.services;
 
-import com.example.ipoapi.dtos.LoginDTO;
 import com.example.ipoapi.dtos.UserInfoDTO;
 import com.example.ipoapi.entities.UserEntity;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Optional;
 
+import static java.lang.Integer.parseInt;
 
 @Service
-@Slf4j(topic = "application")
-public class UserService {
+public class SettingService  {
 
     private final UserInterfaceRepository userInterfaceRepository;
 
     @Autowired
-    public UserService(UserInterfaceRepository userInterfaceRepository) {
+    public SettingService(UserInterfaceRepository userInterfaceRepository) {
         this.userInterfaceRepository = userInterfaceRepository;
-
     }
 
-    public LoginDTO getById(Integer id) {
-        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(id);
-        if (userEntityOptional.isPresent()) {
-            UserEntity userEntity = userEntityOptional.get();
-            return wrapperLoginDTO(userEntity);
-        }
-        return null;
-    }
-
-    private LoginDTO wrapperLoginDTO(UserEntity userEntity) {
-        return new LoginDTO(userEntity.getName(), userEntity.getLastname());
-    }
-
-    public UserInfoDTO getUserByUsername(String username) {
-        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findByUsername(username);
+    public UserInfoDTO getUserById(String userId) {
+        byte[] decodedBytes = Base64.getDecoder().decode(userId);
+        String decodedUserId = new String(decodedBytes);
+        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(parseInt(decodedUserId));
         if (userEntityOptional.isPresent()) {
             UserEntity userInfoDTO = userEntityOptional.get();
             return wrapperUserInfoDTO(userInfoDTO);

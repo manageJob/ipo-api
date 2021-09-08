@@ -60,9 +60,11 @@ public class SettingService  {
             userEntity.setName(userInfoDTO.getName());
             userEntity.setLastname(userInfoDTO.getLastname());
             userEntity.setUsername(userInfoDTO.getUsername());
+            userEntity.setPassword(userEntity.getPassword());
             userEntity.setTelephoneNumber(userInfoDTO.getTelephoneNumber());
             userEntity.setBankName(userInfoDTO.getBankName());
             userEntity.setBankNumber(userInfoDTO.getBankNumber());
+            userEntity.setRoleEntity(userEntity.getRoleEntity());
             return userInterfaceRepository.saveAndFlush(userEntity).getId();
         } else {
             throw new NoResultException("User is not found.");

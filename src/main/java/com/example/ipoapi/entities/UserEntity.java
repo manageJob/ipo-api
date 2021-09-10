@@ -37,6 +37,9 @@ public class UserEntity {
     @Column(name = "bank_number")
     private String bankNumber;
 
+    @Column(name = "role_id")
+    private String roleId;
+
     @OneToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)

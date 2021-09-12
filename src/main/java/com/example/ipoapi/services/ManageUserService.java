@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,18 +86,19 @@ public class ManageUserService {
         }
     }
 
-    public UserInfoDTO getUserById(String userId) {
+    public ManageUserDTO getUserById(String userId) {
         Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(parseInt(userId));
         if (userEntityOptional.isPresent()) {
-            UserEntity userInfoDTO = userEntityOptional.get();
-            return wrapperUserInfoDTO(userInfoDTO);
+            UserEntity manageUserDTO = userEntityOptional.get();
+            return wrapperManageUserDTO(manageUserDTO);
         } else {
             throw new NoResultException("User is not found.");
         }
     }
 
-    private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {
-        return new UserInfoDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
-                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getBankName(), userEntity.getBankNumber());
+    private ManageUserDTO wrapperManageUserDTO(UserEntity userEntity) {
+        return new ManageUserDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
+                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getBankName(), userEntity.getBankNumber(), userEntity.getRoleId());
     }
+
 }

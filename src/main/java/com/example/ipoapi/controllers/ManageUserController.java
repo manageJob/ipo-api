@@ -85,11 +85,11 @@ public class ManageUserController {
         }
     }
 
-    @GetMapping("/manage-user-password/{id}")
+    @GetMapping("/manage-user/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
         try {
-            UserInfoDTO userInfo = manageUserService.getUserById(id);
-            return ResponseEntity.ok().body(userInfo);
+            ManageUserDTO manageUserDTO = manageUserService.getUserById(id);
+            return ResponseEntity.ok().body(manageUserDTO);
         } catch (NoResultException ex) {
             log.warn("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));

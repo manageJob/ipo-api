@@ -84,4 +84,18 @@ public class ManageUserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
+
+    @GetMapping("/manage-user-password/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
+        try {
+            UserInfoDTO userInfo = manageUserService.getUserById(id);
+            return ResponseEntity.ok().body(userInfo);
+        } catch (NoResultException ex) {
+            log.warn("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+        } catch (Exception ex) {
+            log.error("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
+    }
 }

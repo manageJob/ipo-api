@@ -31,8 +31,9 @@ public class SettingService  {
         if (userEntityOptional.isPresent()) {
             UserEntity userInfoDTO = userEntityOptional.get();
             return wrapperUserInfoDTO(userInfoDTO);
+        } else {
+            throw new NoResultException("User is not found.");
         }
-        return null;
     }
 
     private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {

@@ -1,9 +1,6 @@
 package com.example.ipoapi.controllers;
 
-import com.example.ipoapi.dtos.ErrorResponseDTO;
-import com.example.ipoapi.dtos.ManageUserCriteriaDTO;
-import com.example.ipoapi.dtos.ManageUserDTO;
-import com.example.ipoapi.dtos.UserInfoDTO;
+import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.services.ManageUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +67,20 @@ public class ManageUserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
             log.error("Api GET : /manage-user/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
+    }
+
+    @PutMapping("/manage-user-password/{id}")
+    public ResponseEntity<?> updateUserPassword(@PathVariable("id") Integer id) {
+        try {
+            Integer updatedId = manageUserService.updateUserPassword(id);
+            return ResponseEntity.ok().body(updatedId);
+        } catch (NoResultException ex) {
+            log.warn("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+        } catch (Exception ex) {
+            log.error("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

@@ -53,12 +53,8 @@ public class ManageUserService {
     @Transactional
     public Integer createUser(ManageUserDTO manageUserDTO) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setName(manageUserDTO.getName());
-        userEntity.setLastname(manageUserDTO.getLastname());
         userEntity.setUsername(manageUserDTO.getUsername());
-        userEntity.setTelephoneNumber(manageUserDTO.getTelephoneNumber());
-        userEntity.setBankName(manageUserDTO.getBankName());
-        userEntity.setBankNumber(manageUserDTO.getBankNumber());
+        userEntity.setPassword("ipo1234");
         userEntity.setRoleId(manageUserDTO.getRoleId());
         return userInterfaceRepository.saveAndFlush(userEntity).getId();
     }
@@ -68,14 +64,20 @@ public class ManageUserService {
         Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(id);
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
-            userEntity.setName(manageUserDTO.getName());
-            userEntity.setLastname(manageUserDTO.getLastname());
             userEntity.setUsername(manageUserDTO.getUsername());
-            userEntity.setPassword(userEntityOptional.get().getPassword());
-            userEntity.setTelephoneNumber(manageUserDTO.getTelephoneNumber());
-            userEntity.setBankName(manageUserDTO.getBankName());
-            userEntity.setBankNumber(manageUserDTO.getBankNumber());
             userEntity.setRoleId(manageUserDTO.getRoleId());
+            return userInterfaceRepository.saveAndFlush(userEntity).getId();
+        } else {
+            throw new NoResultException("User is not found.");
+        }
+    }
+
+    @Transactional
+    public Integer updateUserPassword(Integer id) {
+        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(id);
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+            userEntity.setPassword("ipo1234");
             return userInterfaceRepository.saveAndFlush(userEntity).getId();
         } else {
             throw new NoResultException("User is not found.");

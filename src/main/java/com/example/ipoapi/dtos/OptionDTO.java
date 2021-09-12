@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OptionDTO {
 
+    private String label;
+
     private String value;
 
-    private String label;
 }

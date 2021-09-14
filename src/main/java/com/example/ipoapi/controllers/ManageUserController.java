@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @RestController
 @Slf4j(topic = "application")
@@ -95,6 +96,20 @@ public class ManageUserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
             log.error("Api GET : /manage-user-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/manage-user")
+    public ResponseEntity<?> delete(@RequestParam(name = "ids", defaultValue = "") List<Integer> ids) {
+        try {
+            manageUserService.delete(ids);
+            return ResponseEntity.ok().build();
+        } catch (NoResultException ex) {
+            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", ids, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+        } catch (Exception ex) {
+            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", ids, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

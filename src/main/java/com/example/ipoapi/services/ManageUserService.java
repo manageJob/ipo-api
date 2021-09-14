@@ -41,6 +41,7 @@ public class ManageUserService {
                 t.getId(),
                 t.getName(),
                 t.getLastname(),
+                t.getUsername(),
                 t.getTelephoneNumber(),
                 t.getBankName(),
                 t.getBankNumber(),
@@ -99,6 +100,15 @@ public class ManageUserService {
     private ManageUserDTO wrapperManageUserDTO(UserEntity userEntity) {
         return new ManageUserDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
                 userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getBankName(), userEntity.getBankNumber(), userEntity.getRoleId());
+    }
+
+    @Transactional
+    public void delete(List<Integer> ids) {
+        List<UserEntity> dwConfigEntities = userInterfaceRepository.findAllById(ids);
+        if (dwConfigEntities.isEmpty()) {
+            throw new NoResultException("User is not found.");
+        }
+        userInterfaceRepository.deleteByIdIn(ids);
     }
 
 }

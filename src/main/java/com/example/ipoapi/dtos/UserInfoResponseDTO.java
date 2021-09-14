@@ -11,6 +11,7 @@ public class UserInfoResponseDTO {
     private Integer id;
     private String name;
     private String lastname;
+    private String username;
     private String telephoneNumber;
     private String bankName;
     private String bankNumber;

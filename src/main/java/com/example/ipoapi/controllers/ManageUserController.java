@@ -50,10 +50,10 @@ public class ManageUserController {
             Integer createUserId = manageUserService.createUser(manageUserDTO);
             return ResponseEntity.ok().body(createUserId);
         } catch (NoResultException ex) {
-            log.warn("Api GET : /manage-user : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
+            log.warn("Api POST : /manage-user : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Api GET : /manage-user : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
+            log.error("Api POST : /manage-user : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
@@ -64,24 +64,24 @@ public class ManageUserController {
             Integer updatedId = manageUserService.updateUser(id, manageUserDTO);
             return ResponseEntity.ok().body(updatedId);
         } catch (NoResultException ex) {
-            log.warn("Api GET : /manage-user/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api PUT : /manage-user/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Api GET : /manage-user/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.error("Api PUT : /manage-user/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
 
-    @PutMapping("/manage-user-reset-password/{id}")
+    @PutMapping("/manage-user/reset-password/{id}")
     public ResponseEntity<?> resetUserPassword(@PathVariable("id") Integer id) {
         try {
             Integer updatedId = manageUserService.resetUserPassword(id);
             return ResponseEntity.ok().body(updatedId);
         } catch (NoResultException ex) {
-            log.warn("Api GET : /manage-user-reset-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api PUT : /manage-user/reset-password{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Api GET : /manage-user-reset-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.error("Api PUT : /manage-user/reset-password{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

@@ -76,7 +76,7 @@ public class ManageUserService {
     }
 
     @Transactional
-    public Integer updateUserPassword(Integer id) {
+    public Integer resetUserPassword(Integer id) {
         Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(id);
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();

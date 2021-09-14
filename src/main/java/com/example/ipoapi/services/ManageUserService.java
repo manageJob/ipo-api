@@ -49,7 +49,7 @@ public class ManageUserService {
     }
 
     public List<OptionDTO> getRole() {
-        return roleInterfaceRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream().map(c -> new OptionDTO(String.valueOf(c.getId()), c.getName())).collect(Collectors.toList());
+        return roleInterfaceRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream().map(c -> new OptionDTO(c.getName(), String.valueOf(c.getId()))).collect(Collectors.toList());
     }
 
     @Transactional

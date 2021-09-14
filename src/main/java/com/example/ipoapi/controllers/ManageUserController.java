@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j(topic = "application")
@@ -78,10 +80,10 @@ public class ManageUserController {
             Integer updatedId = manageUserService.resetUserPassword(id);
             return ResponseEntity.ok().body(updatedId);
         } catch (NoResultException ex) {
-            log.warn("Api PUT : /manage-user/reset-password{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api PUT : /manage-user/reset-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Api PUT : /manage-user/reset-password{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            log.error("Api PUT : /manage-user/reset-password/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
@@ -102,14 +104,15 @@ public class ManageUserController {
 
     @DeleteMapping("/manage-user")
     public ResponseEntity<?> delete(@RequestParam(name = "ids", defaultValue = "") List<Integer> ids) {
+        String idString = ids.stream().map(Objects::toString).collect(Collectors.joining(","));
         try {
             manageUserService.delete(ids);
             return ResponseEntity.ok().build();
         } catch (NoResultException ex) {
-            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", ids, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", idString, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", ids, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api DELETE : /manage-user : Have Error {}, {} with ids: {}", idString, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

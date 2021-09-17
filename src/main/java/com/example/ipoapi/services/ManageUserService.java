@@ -90,8 +90,8 @@ public class ManageUserService {
     public ManageUserDTO getUserById(String userId) {
         Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(parseInt(userId));
         if (userEntityOptional.isPresent()) {
-            UserEntity manageUserDTO = userEntityOptional.get();
-            return wrapperManageUserDTO(manageUserDTO);
+            UserEntity userEntity = userEntityOptional.get();
+            return wrapperManageUserDTO(userEntity);
         } else {
             throw new NoResultException("User is not found.");
         }
@@ -104,11 +104,10 @@ public class ManageUserService {
 
     @Transactional
     public void delete(List<Integer> ids) {
-        List<UserEntity> dwConfigEntities = userInterfaceRepository.findAllById(ids);
-        if (dwConfigEntities.isEmpty()) {
+        List<UserEntity> userEntities = userInterfaceRepository.findAllById(ids);
+        if (userEntities.isEmpty()) {
             throw new NoResultException("User is not found.");
         }
         userInterfaceRepository.deleteByIdIn(ids);
     }
-
 }

@@ -2,7 +2,9 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.daos.specification.ManageUserSpecification;
 import com.example.ipoapi.dtos.*;
+import com.example.ipoapi.entities.AccountEntity;
 import com.example.ipoapi.entities.UserEntity;
+import com.example.ipoapi.repositories.AccountInterfaceRepository;
 import com.example.ipoapi.repositories.RoleInterfaceRepository;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +26,16 @@ public class ManageUserService {
 
     private final UserInterfaceRepository userInterfaceRepository;
 
+    private final AccountInterfaceRepository accountInterfaceRepository;
+
     private final RoleInterfaceRepository roleInterfaceRepository;
 
     private final ManageUserSpecification manageUserSpecification;
 
     @Autowired
-    public ManageUserService(UserInterfaceRepository userInterfaceRepository, ManageUserSpecification manageUserSpecification, RoleInterfaceRepository roleInterfaceRepository) {
+    public ManageUserService(UserInterfaceRepository userInterfaceRepository, AccountInterfaceRepository accountInterfaceRepository, ManageUserSpecification manageUserSpecification, RoleInterfaceRepository roleInterfaceRepository) {
         this.userInterfaceRepository = userInterfaceRepository;
+        this.accountInterfaceRepository = accountInterfaceRepository;
         this.roleInterfaceRepository = roleInterfaceRepository;
         this.manageUserSpecification = manageUserSpecification;
     }
@@ -43,8 +48,8 @@ public class ManageUserService {
                 t.getLastname(),
                 t.getUsername(),
                 t.getTelephoneNumber(),
-                t.getBankName(),
-                t.getBankNumber(),
+                t.getAccountEntity().getBankName(),
+                t.getAccountEntity().getBankNumber(),
                 t.getRoleEntity().getName()
         )).collect(Collectors.toList());
     }
@@ -56,9 +61,15 @@ public class ManageUserService {
     @Transactional
     public Integer createUser(ManageUserDTO manageUserDTO) {
         UserEntity userEntity = new UserEntity();
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setBankName("");
+        accountEntity.setBankNumber("");
+        accountEntity.setBalance(0);
+        Integer idAccount = accountInterfaceRepository.saveAndFlush(accountEntity).getId();
         userEntity.setUsername(manageUserDTO.getUsername());
         userEntity.setPassword("ipo1234");
         userEntity.setRoleId(manageUserDTO.getRoleId());
+        userEntity.setAccountId(idAccount);
         return userInterfaceRepository.saveAndFlush(userEntity).getId();
     }
 
@@ -99,7 +110,7 @@ public class ManageUserService {
 
     private ManageUserDTO wrapperManageUserDTO(UserEntity userEntity) {
         return new ManageUserDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
-                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getBankName(), userEntity.getBankNumber(), userEntity.getRoleId());
+                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getAccountEntity().getBankName(), userEntity.getAccountEntity().getBankNumber(), userEntity.getRoleId());
     }
 
     @Transactional

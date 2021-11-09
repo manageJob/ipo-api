@@ -38,7 +38,7 @@ public class SettingService  {
 
     private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {
         return new UserInfoDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
-                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getBankName(), userEntity.getBankNumber());
+                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getAccountEntity().getBankName(), userEntity.getAccountEntity().getBankNumber());
     }
 
     @Transactional
@@ -63,8 +63,6 @@ public class SettingService  {
             userEntity.setUsername(userInfoDTO.getUsername());
             userEntity.setPassword(userEntity.getPassword());
             userEntity.setTelephoneNumber(userInfoDTO.getTelephoneNumber());
-            userEntity.setBankName(userInfoDTO.getBankName());
-            userEntity.setBankNumber(userInfoDTO.getBankNumber());
             userEntity.setRoleEntity(userEntity.getRoleEntity());
             return userInterfaceRepository.saveAndFlush(userEntity).getId();
         } else {

@@ -1,6 +1,5 @@
 package com.example.ipoapi.entities;
 
-
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -31,11 +30,8 @@ public class UserEntity {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @Column(name = "bank_name")
-    private String bankName;
-
-    @Column(name = "bank_number")
-    private String bankNumber;
+    @Column(name = "account_id")
+    private Integer accountId;
 
     @Column(name = "role_id")
     private String roleId;
@@ -44,5 +40,10 @@ public class UserEntity {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RoleEntity roleEntity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private AccountEntity accountEntity;
 
 }

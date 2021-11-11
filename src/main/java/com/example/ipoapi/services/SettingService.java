@@ -68,6 +68,7 @@ public class SettingService  {
             }
             AccountEntity accountEntity = accountEntityOptional.get();
             accountEntity.setBankName(userInfoDTO.getBankName());
+            accountEntity.setBankAccountName(userInfoDTO.getBankAccountName());
             accountEntity.setBankNumber(userInfoDTO.getBankNumber());
             accountInterfaceRepository.saveAndFlush(accountEntity);
             UserEntity userEntity = userEntityOptional.get();

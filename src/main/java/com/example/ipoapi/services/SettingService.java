@@ -2,7 +2,9 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.dtos.NewPasswordDTO;
 import com.example.ipoapi.dtos.UserInfoDTO;
+import com.example.ipoapi.entities.AccountEntity;
 import com.example.ipoapi.entities.UserEntity;
+import com.example.ipoapi.repositories.AccountInterfaceRepository;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,12 @@ public class SettingService  {
 
     private final UserInterfaceRepository userInterfaceRepository;
 
+    private final AccountInterfaceRepository accountInterfaceRepository;
+
     @Autowired
-    public SettingService(UserInterfaceRepository userInterfaceRepository) {
+    public SettingService(UserInterfaceRepository userInterfaceRepository, AccountInterfaceRepository accountInterfaceRepository) {
         this.userInterfaceRepository = userInterfaceRepository;
+        this.accountInterfaceRepository = accountInterfaceRepository;
     }
 
     public UserInfoDTO getUserById(String userId) {
@@ -57,6 +62,14 @@ public class SettingService  {
     public Integer updateUser(Integer id, UserInfoDTO userInfoDTO) {
         Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(id);
         if (userEntityOptional.isPresent()) {
+            Optional<AccountEntity> accountEntityOptional = accountInterfaceRepository.findById(userEntityOptional.get().getAccountId());
+            if (!accountEntityOptional.isPresent()) {
+                throw new NoResultException("Account is not found.");
+            }
+            AccountEntity accountEntity = accountEntityOptional.get();
+            accountEntity.setBankName(userInfoDTO.getBankName());
+            accountEntity.setBankNumber(userInfoDTO.getBankNumber());
+            accountInterfaceRepository.saveAndFlush(accountEntity);
             UserEntity userEntity = userEntityOptional.get();
             userEntity.setName(userInfoDTO.getName());
             userEntity.setLastname(userInfoDTO.getLastname());

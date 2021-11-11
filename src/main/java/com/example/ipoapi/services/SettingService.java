@@ -43,7 +43,7 @@ public class SettingService  {
 
     private UserInfoDTO wrapperUserInfoDTO(UserEntity userEntity) {
         return new UserInfoDTO(String.valueOf(userEntity.getId()), userEntity.getName(), userEntity.getLastname(), userEntity.getUsername(),
-                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getAccountEntity().getBankName(), userEntity.getAccountEntity().getBankNumber());
+                userEntity.getPassword(), userEntity.getTelephoneNumber(), userEntity.getAccountEntity().getBankName(), userEntity.getAccountEntity().getBankAccountName(), userEntity.getAccountEntity().getBankNumber());
     }
 
     @Transactional

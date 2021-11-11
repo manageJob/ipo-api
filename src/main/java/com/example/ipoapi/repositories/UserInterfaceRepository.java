@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface UserInterfaceRepository extends JpaRepository<UserEntity, Integer>, JpaSpecificationExecutor<UserEntity> {
     Optional<UserEntity> findByUsername(String user);
+    List<UserEntity> findByRoleIdInOrderById(List<String> ids);
     void deleteByIdIn(List<Integer> ids);
 }

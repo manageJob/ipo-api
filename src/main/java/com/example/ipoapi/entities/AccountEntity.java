@@ -20,6 +20,9 @@ public class AccountEntity {
     @Column(name = "bank_name")
     private String bankName;
 
+    @Column(name = "bank_account_name")
+    private String bankAccountName;
+
     @Column(name = "bank_number")
     private String bankNumber;
 

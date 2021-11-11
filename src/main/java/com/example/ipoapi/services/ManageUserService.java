@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,6 +64,7 @@ public class ManageUserService {
         UserEntity userEntity = new UserEntity();
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setBankName("");
+        accountEntity.setBankAccountName("");
         accountEntity.setBankNumber("");
         accountEntity.setBalance(0);
         Integer idAccount = accountInterfaceRepository.saveAndFlush(accountEntity).getId();
@@ -119,6 +121,11 @@ public class ManageUserService {
         if (userEntities.isEmpty()) {
             throw new NoResultException("User is not found.");
         }
+        List<Integer> accountIds = new ArrayList<>();
+        for (UserEntity userEntity: userEntities) {
+            accountIds.add(userEntity.getAccountId());
+        }
         userInterfaceRepository.deleteByIdIn(ids);
+        accountInterfaceRepository.deleteByIdIn(accountIds);
     }
 }

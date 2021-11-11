@@ -15,5 +15,6 @@ public class UserInfoDTO {
     private String password;
     private String telephoneNumber;
     private String bankName;
+    private String bankAccountName;
     private String bankNumber;
 }

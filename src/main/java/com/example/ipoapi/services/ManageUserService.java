@@ -100,8 +100,8 @@ public class ManageUserService {
         }
     }
 
-    public ManageUserDTO getUserById(String userId) {
-        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(parseInt(userId));
+    public ManageUserDTO getUserById(Integer userId) {
+        Optional<UserEntity> userEntityOptional = userInterfaceRepository.findById(userId);
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
             return wrapperManageUserDTO(userEntity);

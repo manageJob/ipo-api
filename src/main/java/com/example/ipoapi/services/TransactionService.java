@@ -2,7 +2,6 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.entities.AccountEntity;
-import com.example.ipoapi.entities.UserEntity;
 import com.example.ipoapi.repositories.AccountInterfaceRepository;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -38,18 +37,18 @@ public class TransactionService {
         return userInterfaceRepository.findByRoleIdInOrderById(new ArrayList<>(Arrays.asList(ROLE_MANAGER, ROLE_OPM))).stream().filter(c -> !c.getAccountEntity().getBankNumber().equalsIgnoreCase("") && !c.getAccountEntity().getBankAccountName().equalsIgnoreCase("")).map(c -> new OptionDTO(c.getAccountEntity().getBankAccountName(), String.valueOf(c.getAccountEntity().getId()))).collect(Collectors.toList());
     }
 
-    public BankNumberDTO getBankNumberById(Integer accountId) {
+    public BankDetailDTO getBankDetailById(Integer accountId) {
         Optional<AccountEntity> accountEntityOptional = accountInterfaceRepository.findById(accountId);
         if (accountEntityOptional.isPresent()) {
             AccountEntity accountEntity = accountEntityOptional.get();
-            return wrapperBankNumberDTO(accountEntity);
+            return wrapperBankDetailDTO(accountEntity);
         } else {
             throw new NoResultException("Account is not found.");
         }
     }
 
-    private BankNumberDTO wrapperBankNumberDTO(AccountEntity accountEntity) {
-        return new BankNumberDTO(accountEntity.getBankName(), accountEntity.getBankNumber());
+    private BankDetailDTO wrapperBankDetailDTO(AccountEntity accountEntity) {
+        return new BankDetailDTO(accountEntity.getBankName(), accountEntity.getBankNumber());
     }
 
 }

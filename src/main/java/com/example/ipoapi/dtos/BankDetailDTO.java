@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankNumberDTO {
+public class BankDetailDTO {
 
     private String bankName;
 

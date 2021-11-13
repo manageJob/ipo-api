@@ -1,8 +1,7 @@
 package com.example.ipoapi.controllers;
 
-import com.example.ipoapi.dtos.BankNumberDTO;
+import com.example.ipoapi.dtos.BankDetailDTO;
 import com.example.ipoapi.dtos.ErrorResponseDTO;
-import com.example.ipoapi.dtos.ManageUserDTO;
 import com.example.ipoapi.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j(topic = "application")
@@ -32,10 +28,10 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction/{id}")
-    public ResponseEntity<?> getBankNumberById(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getBankDetailById(@PathVariable("id") Integer id) {
         try {
-            BankNumberDTO bankNumberDTO = transactionService.getBankNumberById(id);
-            return ResponseEntity.ok().body(bankNumberDTO);
+            BankDetailDTO bankDetailDTO = transactionService.getBankDetailById(id);
+            return ResponseEntity.ok().body(bankDetailDTO);
         } catch (NoResultException ex) {
             log.warn("Api GET : /transaction/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));

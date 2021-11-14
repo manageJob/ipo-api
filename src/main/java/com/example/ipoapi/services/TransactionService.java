@@ -3,6 +3,7 @@ package com.example.ipoapi.services;
 import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.entities.AccountEntity;
 import com.example.ipoapi.entities.TransactionEntity;
+import com.example.ipoapi.entities.UserEntity;
 import com.example.ipoapi.repositories.AccountInterfaceRepository;
 import com.example.ipoapi.repositories.TransactionInterfaceRepository;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
@@ -12,14 +13,11 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.ipoapi.constants.Constants.ROLE_MANAGER;
-import static com.example.ipoapi.constants.Constants.ROLE_OPM;
+import static com.example.ipoapi.constants.Constants.*;
+import static java.lang.Integer.parseInt;
 
 @Service
 @Slf4j(topic = "application")
@@ -59,6 +57,11 @@ public class TransactionService {
     @Transactional
     public Integer createTransaction(TransactionDTO transactionDTO) {
         TransactionEntity transactionEntity = new TransactionEntity();
+        if (transactionDTO.getType().equalsIgnoreCase(WITHDRAW)) {
+            byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(transactionDTO.getAccountId()));
+            String decodedAccountId = new String(decodedBytes);
+            transactionDTO.setAccountId(parseInt(decodedAccountId));
+        }
         transactionEntity.setAccountId(transactionDTO.getAccountId());
         transactionEntity.setAmount(transactionDTO.getAmount());
         transactionEntity.setType(transactionDTO.getType());

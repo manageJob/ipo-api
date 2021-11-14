@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class JwtDTO {
     private String token;
     private String userId;
+    private String accountId;
 }

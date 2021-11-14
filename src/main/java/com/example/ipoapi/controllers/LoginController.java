@@ -54,11 +54,11 @@ public class LoginController {
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(jwtRequest.getUsername());
         final String token = jwtUtility.generateToken(userDetails);
         UserInfoDTO userInfo =  userService.getUserByUsername(jwtRequest.getUsername());
-        final String UserId = URLEncoder.encode(userInfo.getId(), java.nio.charset.StandardCharsets.UTF_8.toString());
-        String encodedUserId = Base64.getEncoder().encodeToString(UserId.getBytes());
-//        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
-//        String decodedString = new String(decodedBytes);
-        return new JwtDTO(token, encodedUserId);
+        final String userId = URLEncoder.encode(userInfo.getId(), java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedUserId = Base64.getEncoder().encodeToString(userId.getBytes());
+        final String accountId = URLEncoder.encode(userInfo.getAccountId(), java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedAccountId = Base64.getEncoder().encodeToString(accountId.getBytes());
+        return new JwtDTO(token, encodedUserId, encodedAccountId);
     }
 
 }

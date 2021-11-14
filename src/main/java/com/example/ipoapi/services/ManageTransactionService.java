@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.ipoapi.constants.Constants.PENDING;
+
 @Service
 @Slf4j(topic = "application")
 public class ManageTransactionService {
@@ -31,7 +33,7 @@ public class ManageTransactionService {
     }
 
     public List<ManageTransactionResponseDTO> searchManageTransaction(ManageTransactionCriteriaDTO manageTransactionCriteriaDTO) {
-        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountEntityBankAccountNameLikeOrderById("%" + manageTransactionCriteriaDTO.getBankAccountName() + "%");
+        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountEntityBankAccountNameLikeAndStatusOrderById("%" + manageTransactionCriteriaDTO.getBankAccountName() + "%", PENDING);
         return transactionEntities.stream().map(t -> new ManageTransactionResponseDTO(
                 t.getId(),
                 t.getAccountEntity().getBankName(),

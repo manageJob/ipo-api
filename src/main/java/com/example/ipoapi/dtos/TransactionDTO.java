@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionDTO {
-    private Integer accountId;
-    private Integer amount;
+    private String accountId;
+    private String amount;
     private String type;
     private String status;
     private LocalDateTime transactionTime;

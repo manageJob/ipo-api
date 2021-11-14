@@ -60,10 +60,10 @@ public class TransactionService {
         if (transactionDTO.getType().equalsIgnoreCase(WITHDRAW)) {
             byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(transactionDTO.getAccountId()));
             String decodedAccountId = new String(decodedBytes);
-            transactionDTO.setAccountId(parseInt(decodedAccountId));
+            transactionDTO.setAccountId(decodedAccountId);
         }
-        transactionEntity.setAccountId(transactionDTO.getAccountId());
-        transactionEntity.setAmount(transactionDTO.getAmount());
+        transactionEntity.setAccountId(parseInt(transactionDTO.getAccountId()));
+        transactionEntity.setAmount(parseInt(transactionDTO.getAmount()));
         transactionEntity.setType(transactionDTO.getType());
         transactionEntity.setStatus("Pending");
         transactionEntity.setTransactionTime(transactionDTO.getTransactionTime());

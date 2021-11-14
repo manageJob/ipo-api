@@ -72,7 +72,9 @@ public class TransactionService {
     }
 
     public List<TransactionDetailDTO> getTransactionByAccountId(String accountId) {
-      List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountIdOrderById(parseInt(accountId));
+        byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(accountId));
+        String decodedAccountId = new String(decodedBytes);
+        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountIdOrderById(parseInt(decodedAccountId));
         if (transactionEntities.size() == 0) {
             throw new NoResultException("Transaction is not found.");
         } else {

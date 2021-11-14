@@ -23,6 +23,9 @@ public class TransactionEntity {
     @Column(name = "account_id")
     private Integer accountId;
 
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Column(name = "type")
     private String type;
 
@@ -36,5 +39,10 @@ public class TransactionEntity {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "account_id", referencedColumnName = "id", insertable = false, updatable = false)
     private AccountEntity accountEntity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserEntity userEntity;
 
 }

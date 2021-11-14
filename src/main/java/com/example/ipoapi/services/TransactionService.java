@@ -64,6 +64,9 @@ public class TransactionService {
             transactionDTO.setAccountId(decodedAccountId);
         }
         transactionEntity.setAccountId(parseInt(transactionDTO.getAccountId()));
+        byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(transactionDTO.getUserId()));
+        String decodedUserId = new String(decodedBytes);
+        transactionEntity.setUserId(parseInt(decodedUserId));
         transactionEntity.setAmount(parseInt(transactionDTO.getAmount()));
         transactionEntity.setType(transactionDTO.getType());
         transactionEntity.setStatus("Pending");

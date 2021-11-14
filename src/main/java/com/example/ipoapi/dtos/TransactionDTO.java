@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TransactionDTO {
     private String accountId;
+    private String userId;
     private String amount;
     private String type;
     private String status;

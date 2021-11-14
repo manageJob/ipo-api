@@ -2,6 +2,7 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.entities.AccountEntity;
+import com.example.ipoapi.entities.NewsEntity;
 import com.example.ipoapi.entities.TransactionEntity;
 import com.example.ipoapi.entities.UserEntity;
 import com.example.ipoapi.repositories.AccountInterfaceRepository;
@@ -70,4 +71,25 @@ public class TransactionService {
         return transactionInterfaceRepository.saveAndFlush(transactionEntity).getId();
     }
 
+    public List<TransactionDetailDTO> getTransactionByAccountId(String accountId) {
+      List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountIdOrderById(parseInt(accountId));
+        if (transactionEntities.size() == 0) {
+            throw new NoResultException("Transaction is not found.");
+        } else {
+            return wrapperTransactionDTO(transactionEntities);
+        }
+    }
+
+    private List<TransactionDetailDTO> wrapperTransactionDTO(List<TransactionEntity> transactionEntities) {
+        List<TransactionDetailDTO> transactionDetailDTOS = new ArrayList<>();
+        for(TransactionEntity transactionEntity: transactionEntities) {
+            TransactionDetailDTO transactionDetailDTO = new TransactionDetailDTO();
+            transactionDetailDTO.setAmount(String.valueOf(transactionEntity.getAmount()));
+            transactionDetailDTO.setStatus(transactionEntity.getStatus());
+            transactionDetailDTO.setType(transactionEntity.getType());
+            transactionDetailDTO.setTransactionTime(transactionEntity.getTransactionTime());
+            transactionDetailDTOS.add(transactionDetailDTO);
+        }
+        return transactionDetailDTOS;
+    }
 }

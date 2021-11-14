@@ -1,9 +1,6 @@
 package com.example.ipoapi.controllers;
 
-import com.example.ipoapi.dtos.BankDetailDTO;
-import com.example.ipoapi.dtos.ErrorResponseDTO;
-import com.example.ipoapi.dtos.ManageUserDTO;
-import com.example.ipoapi.dtos.TransactionDTO;
+import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @RestController
 @Slf4j(topic = "application")
@@ -53,6 +51,20 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
             log.error("Api POST : /transaction : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
+    }
+
+    @GetMapping("/transaction/account/{accountId}")
+    public ResponseEntity<?> getTransactionByAccountId(@PathVariable("accountId") String accountId) {
+        try {
+            List<TransactionDetailDTO> transactionDetailDTOS = transactionService.getTransactionByAccountId(accountId);
+            return ResponseEntity.ok().body(transactionDetailDTOS);
+        } catch (NoResultException ex) {
+            log.warn("Api GET : /transaction/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+        } catch (Exception ex) {
+            log.error("Api GET : /transaction/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

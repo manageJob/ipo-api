@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface TransactionInterfaceRepository extends JpaRepository<TransactionEntity, Integer>, JpaSpecificationExecutor<TransactionEntity> {
-    List<TransactionEntity> findByAccountIdOrderById(Integer accountId);
+    List<TransactionEntity> findByUserIdOrderById(Integer accountId);
 }

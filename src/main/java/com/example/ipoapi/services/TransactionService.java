@@ -74,10 +74,10 @@ public class TransactionService {
         return transactionInterfaceRepository.saveAndFlush(transactionEntity).getId();
     }
 
-    public List<TransactionDetailDTO> getTransactionByAccountId(String accountId) {
-        byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(accountId));
-        String decodedAccountId = new String(decodedBytes);
-        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountIdOrderById(parseInt(decodedAccountId));
+    public List<TransactionDetailDTO> getTransactionByUserId(String userId) {
+        byte[] decodedBytes = Base64.getDecoder().decode(String.valueOf(userId));
+        String decodedUserId = new String(decodedBytes);
+        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByUserIdOrderById(parseInt(decodedUserId));
         if (transactionEntities.size() == 0) {
             throw new NoResultException("Transaction is not found.");
         } else {

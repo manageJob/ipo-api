@@ -55,16 +55,16 @@ public class TransactionController {
         }
     }
 
-    @GetMapping("/transaction/account/{accountId}")
-    public ResponseEntity<?> getTransactionByAccountId(@PathVariable("accountId") String accountId) {
+    @GetMapping("/transaction/userId/{userId}")
+    public ResponseEntity<?> getTransactionByUserId(@PathVariable("userId") String accountId) {
         try {
-            List<TransactionDetailDTO> transactionDetailDTOS = transactionService.getTransactionByAccountId(accountId);
+            List<TransactionDetailDTO> transactionDetailDTOS = transactionService.getTransactionByUserId(accountId);
             return ResponseEntity.ok().body(transactionDetailDTOS);
         } catch (NoResultException ex) {
-            log.warn("Api GET : /transaction/account/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api GET : /transaction/userId/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Api GET : /transaction/account/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
+            log.error("Api GET : /transaction/userId/{} : Have Error {}, {}", accountId, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

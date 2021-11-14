@@ -18,18 +18,16 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "application")
 public class ManageTransactionService {
 
-    private final ManageTransactionSpecification manageTransactionSpecification;
 
     private final TransactionInterfaceRepository transactionInterfaceRepository;
 
     @Autowired
-    public ManageTransactionService(ManageTransactionSpecification manageTransactionSpecification, TransactionInterfaceRepository transactionInterfaceRepository) {
-        this.manageTransactionSpecification = manageTransactionSpecification;
+    public ManageTransactionService(TransactionInterfaceRepository transactionInterfaceRepository) {
         this.transactionInterfaceRepository = transactionInterfaceRepository;
     }
 
     public List<ManageTransactionResponseDTO> searchManageTransaction(ManageTransactionCriteriaDTO manageTransactionCriteriaDTO) {
-        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findAll(manageTransactionSpecification.manageTransactionSpecification(manageTransactionCriteriaDTO), Sort.by(Sort.Direction.ASC, "name"));
+        List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findByAccountEntityBankAccountNameLikeOrderById("%" + manageTransactionCriteriaDTO.getBankAccountName() + "%");
         return transactionEntities.stream().map(t -> new ManageTransactionResponseDTO(
                 t.getId(),
                 t.getAccountEntity().getBankName(),

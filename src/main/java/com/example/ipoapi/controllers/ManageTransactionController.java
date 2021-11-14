@@ -25,10 +25,10 @@ public class ManageTransactionController {
     }
 
     @GetMapping("/manage-transaction")
-    public ResponseEntity<?> search(@RequestParam(name = "bankName", defaultValue = "") String bankName
+    public ResponseEntity<?> search(@RequestParam(name = "bankAccountName", defaultValue = "") String bankAccountName
     ) {
         ManageTransactionCriteriaDTO manageTransactionCriteriaDTO = ManageTransactionCriteriaDTO.builder()
-                .bankName(bankName)
+                .bankAccountName(bankAccountName)
                 .build();
         try {
             return ResponseEntity.ok(manageTransactionService.searchManageTransaction(manageTransactionCriteriaDTO));

@@ -8,5 +8,5 @@ import lombok.*;
 @ToString
 @Builder
 public class ManageTransactionCriteriaDTO {
-    private String bankName;
+    private String bankAccountName;
 }

@@ -19,8 +19,8 @@ public class ManageTransactionSpecification {
     public Specification<TransactionEntity> manageTransactionSpecification(ManageTransactionCriteriaDTO manageTransactionCriteriaDTO) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.isNotEmpty(manageTransactionCriteriaDTO.getBankName())) {
-                predicates.add(cb.like(root.get("bankName"), "%" + manageTransactionCriteriaDTO.getBankName() + "%"));
+            if (StringUtils.isNotEmpty(manageTransactionCriteriaDTO.getBankAccountName())) {
+                predicates.add(cb.like(root.get("bankAccountName"), "%" + manageTransactionCriteriaDTO.getBankAccountName() + "%"));
             }
             query.distinct(true);
             return cb.and(predicates.toArray(new Predicate[0]));

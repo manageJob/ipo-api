@@ -2,13 +2,16 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.dtos.*;
 import com.example.ipoapi.entities.AccountEntity;
+import com.example.ipoapi.entities.TransactionEntity;
 import com.example.ipoapi.repositories.AccountInterfaceRepository;
+import com.example.ipoapi.repositories.TransactionInterfaceRepository;
 import com.example.ipoapi.repositories.UserInterfaceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +20,6 @@ import java.util.stream.Collectors;
 
 import static com.example.ipoapi.constants.Constants.ROLE_MANAGER;
 import static com.example.ipoapi.constants.Constants.ROLE_OPM;
-import static java.lang.Integer.parseInt;
 
 @Service
 @Slf4j(topic = "application")
@@ -27,10 +29,13 @@ public class TransactionService {
 
     private final AccountInterfaceRepository accountInterfaceRepository;
 
+    private final TransactionInterfaceRepository transactionInterfaceRepository;
+
     @Autowired
-    public TransactionService(UserInterfaceRepository userInterfaceRepository, AccountInterfaceRepository accountInterfaceRepository) {
+    public TransactionService(UserInterfaceRepository userInterfaceRepository, AccountInterfaceRepository accountInterfaceRepository, TransactionInterfaceRepository transactionInterfaceRepository) {
         this.userInterfaceRepository = userInterfaceRepository;
         this.accountInterfaceRepository = accountInterfaceRepository;
+        this.transactionInterfaceRepository = transactionInterfaceRepository;
     }
 
     public List<OptionDTO> getAccount() {
@@ -49,6 +54,17 @@ public class TransactionService {
 
     private BankDetailDTO wrapperBankDetailDTO(AccountEntity accountEntity) {
         return new BankDetailDTO(accountEntity.getBankName(), accountEntity.getBankNumber());
+    }
+
+    @Transactional
+    public Integer createTransaction(TransactionDTO transactionDTO) {
+        TransactionEntity transactionEntity = new TransactionEntity();
+        transactionEntity.setAccountId(transactionDTO.getAccountId());
+        transactionEntity.setAmount(transactionDTO.getAmount());
+        transactionEntity.setType(transactionDTO.getType());
+        transactionEntity.setStatus("Pending");
+        transactionEntity.setTransactionTime(transactionDTO.getTransactionTime());
+        return transactionInterfaceRepository.saveAndFlush(transactionEntity).getId();
     }
 
 }

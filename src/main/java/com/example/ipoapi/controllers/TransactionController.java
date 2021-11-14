@@ -2,6 +2,8 @@ package com.example.ipoapi.controllers;
 
 import com.example.ipoapi.dtos.BankDetailDTO;
 import com.example.ipoapi.dtos.ErrorResponseDTO;
+import com.example.ipoapi.dtos.ManageUserDTO;
+import com.example.ipoapi.dtos.TransactionDTO;
 import com.example.ipoapi.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,20 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
             log.error("Api GET : /transaction/{} : Have Error {}, {}", id, ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
+    }
+
+    @PostMapping("/transaction")
+    public ResponseEntity<?> createTransaction(@RequestBody TransactionDTO transactionDTO) {
+        try {
+            Integer createTransactionId = transactionService.createTransaction(transactionDTO);
+            return ResponseEntity.ok().body(createTransactionId);
+        } catch (NoResultException ex) {
+            log.warn("Api POST : /transaction : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+        } catch (Exception ex) {
+            log.error("Api POST : /transaction : Have Error {}, {}", ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }

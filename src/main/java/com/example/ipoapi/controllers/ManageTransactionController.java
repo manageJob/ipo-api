@@ -2,6 +2,8 @@ package com.example.ipoapi.controllers;
 
 import com.example.ipoapi.dtos.ErrorResponseDTO;
 import com.example.ipoapi.dtos.ManageTransactionCriteriaDTO;
+import com.example.ipoapi.dtos.ManageTransactionDTO;
+import com.example.ipoapi.dtos.NewsDTO;
 import com.example.ipoapi.services.ManageTransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +43,10 @@ public class ManageTransactionController {
     }
 
     @PutMapping("/manage-transaction")
-    public ResponseEntity<?> updateTransaction(@RequestParam(name = "ids", defaultValue = "") List<Integer> ids) {
+    public ResponseEntity<?> updateTransaction(@RequestParam(name = "ids", defaultValue = "") List<Integer> ids, @RequestBody ManageTransactionDTO manageTransactionDTO) {
         String idString = ids.stream().map(Objects::toString).collect(Collectors.joining(","));
         try {
-            manageTransactionService.updateTransaction(ids);
+            manageTransactionService.updateTransaction(ids, manageTransactionDTO);
             return ResponseEntity.ok().build();
         } catch (NoResultException ex) {
             log.warn("Api PUT : /manage-transaction : Have Error {}, {} with ids: {}", idString, ex.getMessage(), ex.getStackTrace());

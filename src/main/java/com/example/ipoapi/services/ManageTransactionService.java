@@ -2,6 +2,7 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.daos.specification.ManageTransactionSpecification;
 import com.example.ipoapi.dtos.ManageTransactionCriteriaDTO;
+import com.example.ipoapi.dtos.ManageTransactionDTO;
 import com.example.ipoapi.dtos.ManageTransactionResponseDTO;
 import com.example.ipoapi.dtos.UserInfoResponseDTO;
 import com.example.ipoapi.entities.TransactionEntity;
@@ -46,13 +47,13 @@ public class ManageTransactionService {
     }
 
     @Transactional
-    public void updateTransaction(List<Integer> ids) {
+    public void updateTransaction(List<Integer> ids, ManageTransactionDTO manageTransactionDTO) {
         List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findAllById(ids);
         if (transactionEntities.isEmpty()) {
             throw new NoResultException("Transaction is not found.");
         }
         for (TransactionEntity transactionEntity: transactionEntities) {
-            transactionEntity.setStatus("Approval");
+            transactionEntity.setStatus(manageTransactionDTO.getStatus());
             transactionInterfaceRepository.saveAndFlush(transactionEntity);
         }
     }

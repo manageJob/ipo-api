@@ -2,7 +2,6 @@ package com.example.ipoapi.services;
 
 import com.example.ipoapi.daos.specification.ManageTransactionSpecification;
 import com.example.ipoapi.dtos.ManageTransactionCriteriaDTO;
-import com.example.ipoapi.dtos.ManageTransactionDTO;
 import com.example.ipoapi.dtos.ManageTransactionResponseDTO;
 import com.example.ipoapi.dtos.UserInfoResponseDTO;
 import com.example.ipoapi.entities.TransactionEntity;

@@ -47,13 +47,13 @@ public class ManageTransactionService {
     }
 
     @Transactional
-    public void updateTransaction(List<Integer> ids, ManageTransactionDTO manageTransactionDTO) {
+    public void updateTransaction(String status, List<Integer> ids) {
         List<TransactionEntity> transactionEntities = transactionInterfaceRepository.findAllById(ids);
         if (transactionEntities.isEmpty()) {
             throw new NoResultException("Transaction is not found.");
         }
         for (TransactionEntity transactionEntity: transactionEntities) {
-            transactionEntity.setStatus(manageTransactionDTO.getStatus());
+            transactionEntity.setStatus(status);
             transactionInterfaceRepository.saveAndFlush(transactionEntity);
         }
     }

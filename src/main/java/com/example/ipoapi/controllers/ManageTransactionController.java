@@ -42,17 +42,17 @@ public class ManageTransactionController {
         }
     }
 
-    @PutMapping("/manage-transaction")
-    public ResponseEntity<?> updateTransaction(@RequestParam(name = "ids", defaultValue = "") List<Integer> ids, @RequestBody ManageTransactionDTO manageTransactionDTO) {
+    @PutMapping("/manage-transaction/{status}")
+    public ResponseEntity<?> updateTransaction(@PathVariable("status") String status, @RequestParam(name = "ids", defaultValue = "") List<Integer> ids) {
         String idString = ids.stream().map(Objects::toString).collect(Collectors.joining(","));
         try {
-            manageTransactionService.updateTransaction(ids, manageTransactionDTO);
+            manageTransactionService.updateTransaction(status, ids);
             return ResponseEntity.ok().build();
         } catch (NoResultException ex) {
-            log.warn("Api PUT : /manage-transaction : Have Error {}, {} with ids: {}", idString, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api PUT : /manage-transaction/{} : Have Error {}, {} with ids: {}", status,  idString, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         } catch (Exception ex) {
-            log.warn("Api PUT : /manage-transaction : Have Error {}, {} with ids: {}", idString, ex.getMessage(), ex.getStackTrace());
+            log.warn("Api PUT : /manage-transaction/{} : Have Error {}, {} with ids: {}", status, idString, ex.getMessage(), ex.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
